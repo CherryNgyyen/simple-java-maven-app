@@ -83,7 +83,11 @@ spec:
         stage('Test maven app') {
             steps {
                 container('maven') {
-                    sh 'mvn test'
+                    script{
+                        sh 'mvn test'
+                    }
+                    junit 'target/surefire-reports/*.xml'
+                    archiveArtifacts artifacts: 'target/surefire-reports/*.xml'
                 }
             }
         }
@@ -91,7 +95,6 @@ spec:
 
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
             cleanWs()
         }
     }
