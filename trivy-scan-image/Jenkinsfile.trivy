@@ -33,7 +33,7 @@ spec:
                     sh 'chmod +x ./trivy-scan-image/json-to-html.sh'
                     sh 'ls -la'
                     sh 'ls -la ./trivy-scan-image'
-                    sh './trivy-scan-image/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
+                    sh './trivy-scan-image/json-to-html.sh trivy-output/scan-result.json trivy-output/report.html'
                     publishHTML(target: [
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
