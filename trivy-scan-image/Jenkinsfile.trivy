@@ -29,6 +29,7 @@ spec:
         stage('Trivy Scan') {
             steps {
                 sh 'mkdir -p trivy-output'
+                sh 'chmod +x ./trivy-scan-image/json-to-html.sh'
                 sh './trivy-scan-image/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
                 publishHTML(target: [
                     allowMissing: false,
@@ -48,7 +49,7 @@ spec:
         }
     }
     post {
-        always {
+        success {
             echo 'Scan completed. You can download the JSON report from the build artifacts.'
         }
     }
