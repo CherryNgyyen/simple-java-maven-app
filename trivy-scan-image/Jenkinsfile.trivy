@@ -1,0 +1,55 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: trivy-scan
+spec:
+  containers:
+    - name: trivy
+      image: aquasec/trivy:latest
+      command:
+        - cat
+      tty: true
+      volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
+"""
+            defaultContainer 'trivy'
+        }
+    }
+    stages {
+        stage('Trivy Scan') {
+            steps {
+                sh 'mkdir -p trivy-output'
+                sh './scripts/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'trivy-output',
+                    reportFiles: 'report.html',
+                    reportName: 'Trivy Scan Report'
+                ])
+            }
+        }
+
+        stage('Archive Trivy Report') {
+            steps {
+                archiveArtifacts artifacts: 'trivy-output/scan-result.json', fingerprint: true
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Scan completed. You can download the JSON report from the build artifacts.'
+        }
+    }
+}
