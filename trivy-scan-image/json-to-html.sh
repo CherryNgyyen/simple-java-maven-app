@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 INPUT_JSON="$1"
 OUTPUT_HTML="$2"
