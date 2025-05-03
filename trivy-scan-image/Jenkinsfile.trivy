@@ -29,7 +29,7 @@ spec:
         stage('Trivy Scan') {
             steps {
                 sh 'mkdir -p trivy-output'
-                sh './scripts/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
+                sh './trivy-scan-image/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
