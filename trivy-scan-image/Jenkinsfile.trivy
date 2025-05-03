@@ -31,6 +31,7 @@ spec:
                 sh 'mkdir -p trivy-output'
                 dir("$WORKSPACE"){
                     sh 'chmod +x ./trivy-scan-image/json-to-html.sh'
+                    sh 'chmod -R a+rw trivy-output'
                     sh 'ls -la'
                     sh 'ls -la ./trivy-scan-image'
                     sh './trivy-scan-image/json-to-html.sh trivy-output/scan-result.json trivy-output/report.html'
