@@ -29,16 +29,19 @@ spec:
         stage('Trivy Scan') {
             steps {
                 sh 'mkdir -p trivy-output'
-                sh 'chmod +x ./trivy-scan-image/json-to-html.sh'
-                sh 'trivy-scan-image/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'trivy-output',
-                    reportFiles: 'report.html',
-                    reportName: 'Trivy Scan Report'
-                ])
+                dir("$WORKSPACE"){
+                    sh 'chmod +x ./trivy-scan-image/json-to-html.sh'
+                    sh 'ls- la'
+                    sh './trivy-scan-image/json-to-html.sh trivy-output/scan-result.json > trivy-output/report.html'
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'trivy-output',
+                        reportFiles: 'report.html',
+                        reportName: 'Trivy Scan Report'
+                    ])
+                }
             }
         }
 
