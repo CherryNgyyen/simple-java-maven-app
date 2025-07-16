@@ -95,9 +95,7 @@ spec:
 
     post {
         always {
-            node {
-                cleanWs()
-            }
+            cleanWs()
         }
     }
 }
