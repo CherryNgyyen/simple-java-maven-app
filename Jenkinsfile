@@ -19,7 +19,7 @@ spec:
     }
 
     environment {
-        SONARQUBE_SERVER = 'http://sonarqube-service:9000/sonarqube/'
+        SONARQUBE_SERVER = 'http://sonarqube-service.devops-tools.svc.cluster.local:9000/sonarqube/'
         SONARQUBE_TOKEN = credentials('sonarqube-user-token')
         SONARQUBE_PROJECT_KEY = credentials('sonarqube-simple-java-maven-app')
         SONARQUBE_PROJECT_NAME = "simple-java-maven-app-${env.BRANCH_NAME ?: 'master'}"
